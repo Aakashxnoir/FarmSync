@@ -1,0 +1,50 @@
+{
+  "columns": [
+    "n_kg_ha",
+    "p_kg_ha",
+    "k_kg_ha",
+    "ph",
+    "oc_pct",
+    "rainfall_mm_per_day",
+    "rainfall_last30_mm",
+    "dry_spell_frac",
+    "temp_mean_c",
+    "temp_max_c",
+    "gdd_per_day",
+    "humidity_mean_pct",
+    "et0_mm_per_day",
+    "ndvi_mean",
+    "ndvi_max",
+    "ndvi_p90",
+    "ndvi_slope_30d",
+    "ndvi_auc_per_day",
+    "area_ha",
+    "crop",
+    "district",
+    "season"
+  ],
+  "categories": {
+    "crop": [
+      "paddy",
+      "black_gram",
+      "groundnut",
+      "sugarcane",
+      "maize"
+    ],
+    "district": [
+      "Thanjavur",
+      "Tiruvarur",
+      "Nagapattinam",
+      "Tiruchirappalli",
+      "Madurai"
+    ],
+    "season": [
+      "whole_year",
+      "kharif",
+      "rabi",
+      "kuruvai",
+      "samba"
+    ]
+  },
+  "target_transform": "log1p"
+}
