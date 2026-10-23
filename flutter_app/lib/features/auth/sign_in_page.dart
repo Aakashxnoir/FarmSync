@@ -1,4 +1,5 @@
 import 'package:clerk_flutter/clerk_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +11,7 @@ import '../../core/theme.dart';
 import '../../core/widgets/glass.dart';
 
 /// FarmSync sign-in — brand hero + compact Clerk card + optional demo.
+/// On web the Clerk card is hidden (no ClerkAuth ancestor there).
 class SignInPage extends ConsumerWidget {
   const SignInPage({super.key});
 
@@ -32,7 +34,7 @@ class SignInPage extends ConsumerWidget {
                       const SizedBox(height: 12),
                       const _BrandHero(),
                       const SizedBox(height: 28),
-                      GlassPanel(
+                      if (!kIsWeb) GlassPanel(
                         padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,

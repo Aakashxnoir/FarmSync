@@ -1,4 +1,5 @@
 import 'package:clerk_flutter/clerk_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,6 +26,17 @@ class FarmSyncApp extends ConsumerWidget {
         theme: buildAppTheme(),
         debugShowCheckedModeBanner: false,
         home: const _DemoHome(),
+      );
+    }
+
+    // clerk_flutter cannot start in a browser (path_provider + dart:io), so
+    // web skips ClerkAuth and offers the demo only.
+    if (kIsWeb) {
+      return MaterialApp(
+        title: AppBrand.name,
+        theme: buildAppTheme(),
+        debugShowCheckedModeBanner: false,
+        home: const SignInPage(),
       );
     }
 
