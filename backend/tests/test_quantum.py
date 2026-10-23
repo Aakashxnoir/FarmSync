@@ -24,7 +24,7 @@ from app.quantum.qubo import (
 )
 from app.quantum.quantum_optimizer import QAOAResult, solve_qaoa
 from app.quantum.risk import build_risk_model, sigma_from_band
-from app.quantum.sparq import _interp, _softmax_amplitudes, solve_sparq
+from app.quantum.sparq import _interp, _softmax_amplitudes, basis_energies, exact_cvar, solve_sparq
 
 
 def _random_problem(seed: int):
@@ -295,6 +295,36 @@ def test_interp_grows_schedule_by_one_layer() -> None:
     p3 = _interp(p2)
     assert len(p3) == 6
     assert np.all(np.isfinite(p3))
+
+
+def test_exact_cvar_training_objective() -> None:
+    """SPARQ trains on CVaR of the exact Born distribution. The energy table
+    must line up with qml.probs order (wire 0 = most significant bit), or
+    COBYLA optimises the wrong states."""
+    import numpy as np
+
+    problem = _simplex_problem(seed=3)
+    n = problem.n_qubits
+    energies = basis_energies(problem)
+    for k in range(2**n):
+        bits = [int(b) for b in format(k, f"0{n}b")]
+        assert abs(energies[k] - energy_qubo(problem, bits)) < 1e-6
+
+    order = np.argsort(energies)
+    sorted_e = energies[order]
+    probs = np.random.default_rng(0).dirichlet(np.ones(2**n))
+    # alpha=1 is the plain expectation; a point mass gives that state's energy.
+    assert abs(exact_cvar(probs, order, sorted_e, 1.0) - probs @ energies) < 1e-6
+    point = np.zeros(2**n)
+    point[7] = 1.0
+    assert abs(exact_cvar(point, order, sorted_e, 0.25) - energies[7]) < 1e-6
+    # Brute force: mean energy of the lowest-energy 25% of probability mass.
+    alpha, left, acc = 0.25, 0.25, 0.0
+    for idx in order:
+        take = min(left, probs[idx])
+        acc += take * energies[idx]
+        left -= take
+    assert abs(exact_cvar(probs, order, sorted_e, alpha) - acc / alpha) < 1e-6
 
 
 def test_sigma_from_band_is_positive_even_when_quantiles_collapse() -> None:

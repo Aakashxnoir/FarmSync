@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:clerk_flutter/clerk_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/brand.dart';
+import '../../core/clerk_web.dart';
 import '../../core/demo_session.dart';
 import '../../core/widgets/glass.dart';
 import '../dashboard/dashboard_screen.dart';
@@ -73,6 +75,15 @@ class _HomeShellState extends ConsumerState<HomeShell> {
                   onPressed: () => ref.read(demoSessionProvider.notifier).end(),
                   style: TextButton.styleFrom(foregroundColor: Colors.white),
                   child: const Text('Leave demo'),
+                ),
+              )
+            else if (kIsWeb)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: TextButton(
+                  onPressed: clerkSignOut,
+                  style: TextButton.styleFrom(foregroundColor: Colors.white),
+                  child: const Text('Sign out'),
                 ),
               )
             else

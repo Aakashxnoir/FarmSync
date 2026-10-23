@@ -1,15 +1,18 @@
 import 'package:clerk_flutter/clerk_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/brand.dart';
+import '../../core/clerk_web.dart';
 import '../../core/demo_session.dart';
 import '../../core/env.dart';
 import '../../core/theme.dart';
 import '../../core/widgets/glass.dart';
 
 /// FarmSync sign-in — brand hero + compact Clerk card + optional demo.
+/// On web the Clerk card is a button that opens ClerkJS sign-in instead.
 class SignInPage extends ConsumerWidget {
   const SignInPage({super.key});
 
@@ -50,28 +53,35 @@ class SignInPage extends ConsumerWidget {
                               style: textTheme.bodySmall?.copyWith(color: AppColors.clay),
                             ),
                             const SizedBox(height: 16),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.62),
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(color: AppColors.clay.withValues(alpha: 0.18)),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.all(Radius.circular(14)),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: ClerkErrorListener(
-                                    child: SizedBox(
-                                      height: 200,
-                                      child: SingleChildScrollView(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                                        child: ClerkAuthentication(),
+                            if (kIsWeb)
+                              OutlinedButton.icon(
+                                onPressed: openClerkSignIn,
+                                icon: const Icon(Icons.login),
+                                label: const Text('Sign in with Google'),
+                              )
+                            else
+                              DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.62),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(color: AppColors.clay.withValues(alpha: 0.18)),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(14)),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: ClerkErrorListener(
+                                      child: SizedBox(
+                                        height: 200,
+                                        child: SingleChildScrollView(
+                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                                          child: ClerkAuthentication(),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ),
