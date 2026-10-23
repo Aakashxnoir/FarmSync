@@ -59,8 +59,10 @@ from app.quantum.qubo import (
     objective_value,
 )
 
-TRAIN_SHOTS = 256  # shots per objective evaluation during training
 DEFAULT_WARM_START_TAU = 0.35  # softmax temperature on normalised net value
+# PennyLane's C++ statevector simulator: same circuit, ~4x faster per
+# evaluation than default.qubit at 12-15 qubits.
+SOLVER_DEVICE = "lightning.qubit"
 
 
 @dataclass
@@ -309,6 +311,27 @@ def warm_start_amplitudes(
     return amplitudes_per_block, report
 
 
+def basis_energies(problem: QUBOProblem) -> np.ndarray:
+    """QUBO energy of every computational basis state, in ``qml.probs`` order
+    (wire 0 is the most significant bit). Feasible up to ~20 qubits."""
+    n = problem.n_qubits
+    index = np.arange(2**n)
+    bit = [((index >> (n - 1 - w)) & 1).astype(np.int8) for w in range(n)]
+    energies = np.full(2**n, problem.offset, dtype=float)
+    for (i, j), q in problem.Q.items():
+        energies += q * (bit[i] if i == j else bit[i] * bit[j])
+    return energies
+
+
+def exact_cvar(probs: np.ndarray, order: np.ndarray, sorted_energies: np.ndarray, alpha: float) -> float:
+    """CVaR_alpha of the energy under the exact Born distribution: the mean
+    energy of the lowest-energy `alpha` probability mass."""
+    p = probs[order]
+    mass_before = np.cumsum(p) - p
+    weight = np.clip(alpha - mass_before, 0.0, p)
+    return float(weight @ sorted_energies / alpha)
+
+
 def make_sparq_qnode(
     problem: QUBOProblem,
     amplitudes_per_block: list[list[float]],
@@ -316,8 +339,9 @@ def make_sparq_qnode(
     *,
     shots: int | None = None,
     mode: Literal["sample", "probs"] = "sample",
+    device: str = "default.qubit",
 ):
-    """Build a PennyLane QNode for SPARQ on ``default.qubit``.
+    """Build a PennyLane QNode for SPARQ on ``device``.
 
     ``mode='probs'`` returns the full Born distribution (exact simulation, no
     shots). ``mode='sample'`` returns bitstring samples.
@@ -326,7 +350,7 @@ def make_sparq_qnode(
         raise ValueError("SPARQ requires a simplex-encoded QUBO")
     n = problem.n_qubits
     cost_h, _const = _cost_hamiltonian(problem)
-    dev = qml.device("default.qubit", wires=n)
+    dev = qml.device(device, wires=n)
 
     def circuit(params):
         for amps, wires in zip(amplitudes_per_block, problem.blocks):
@@ -382,14 +406,19 @@ def solve_sparq(
 
     amplitudes_per_block, warm_start_report = warm_start_amplitudes(problem, tau=warm_start_tau)
 
-    def build_qnode(depth: int, n_shots: int):
+    def build_qnode(depth: int, n_shots: int | None):
         return make_sparq_qnode(
             problem,
             amplitudes_per_block,
             depth,
             shots=n_shots,
-            mode="sample",
+            mode="sample" if n_shots else "probs",
+            device=SOLVER_DEVICE,
         )
+
+    energies = basis_energies(problem)
+    order = np.argsort(energies)
+    sorted_energies = energies[order]
 
     start = time.monotonic()
     timed_out = False
@@ -404,7 +433,7 @@ def solve_sparq(
             on_progress("sparq_layer", {"message": f"Training layer {depth}/{layers}", "layer": depth, "layers": layers})
         if depth > 1:
             params = _interp(best_params)
-        train_qnode = build_qnode(depth, TRAIN_SHOTS)
+        train_qnode = build_qnode(depth, None)
         stage_best = {"value": float("inf"), "params": params.copy()}
         iteration = [0]
 
@@ -413,13 +442,12 @@ def solve_sparq(
             if time.monotonic() - start > timeout_s:
                 timed_out = True
                 raise TimeoutError("QAOA_TIMEOUT_S breached")
-            raw = np.atleast_2d(train_qnode(p_vec))
-            energies = sorted(energy_qubo(problem, [int(b) for b in row]) for row in raw)
-            # CVaR at alpha: optimise the best quartile of samples, not the
-            # mean. We only need one good bitstring, so the tail is what counts
-            # (Barkoutsos et al.).
-            k = max(1, int(len(energies) * cvar_alpha))
-            value = float(np.mean(energies[:k]))
+            # CVaR at alpha: optimise the best quartile of the distribution,
+            # not the mean. We only need one good bitstring, so the tail is
+            # what counts (Barkoutsos et al.). Computed from the exact Born
+            # probabilities rather than shots, so COBYLA sees a noise-free
+            # objective; shots are still what the final answer is read from.
+            value = exact_cvar(train_qnode(p_vec), order, sorted_energies, cvar_alpha)
             _it[0] += 1
             convergence.append({"layer": _depth, "iteration": _it[0], "cvar_energy": round(value, 6)})
             if on_progress and _it[0] % 15 == 0:
