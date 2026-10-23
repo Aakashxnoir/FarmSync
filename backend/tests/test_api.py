@@ -265,7 +265,7 @@ def test_dashboard_aggregates_only_this_account(client: TestClient, identity) ->
     assert names == {"Dash A", "Dash B"}
     assert "Other account farm" not in names
     # Farms without a ranking are surfaced as needing attention, not hidden.
-    assert all("no crop ranking yet" in row["issues"] for row in dash["farms"])
+    assert all("run crop ranking to see the plan" in row["issues"] for row in dash["farms"])
 
     for fid in (a["farm"]["id"], b["farm"]["id"]):
         client.delete(f"/api/v1/farms/{fid}")
@@ -389,8 +389,8 @@ def test_water_scenario_reranks_without_persist(client: TestClient, identity) ->
     assert dry_crops  # something drought-tolerant remains
     assert "pipeline" in wet and "rotation_candidates" in wet["pipeline"]
     assert "pipeline" in dry
-  if wet.get("ranking") and dry.get("ranking"):
-      assert wet["ranking"]["sequence"] != dry["ranking"]["sequence"]
+    if wet.get("ranking") and dry.get("ranking"):
+        assert wet["ranking"]["sequence"] != dry["ranking"]["sequence"]
     assert client.get(f"/api/v1/farms/{farm_id}/rotation-plan").status_code == 404
 
     client.delete(f"/api/v1/farms/{farm_id}")
