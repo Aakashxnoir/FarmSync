@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:clerk_flutter/clerk_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/brand.dart';
 import '../../core/auth_token.dart';
+import '../../core/clerk_web.dart';
 import '../../core/demo_session.dart';
 import '../../core/env.dart';
 import '../../core/theme.dart';
@@ -30,13 +33,13 @@ class FarmSyncApp extends ConsumerWidget {
     }
 
     // clerk_flutter cannot start in a browser (path_provider + dart:io), so
-    // web skips ClerkAuth and offers the demo only.
+    // web signs in through ClerkJS instead (core/clerk_web.dart).
     if (kIsWeb) {
       return MaterialApp(
         title: AppBrand.name,
         theme: buildAppTheme(),
         debugShowCheckedModeBanner: false,
-        home: const SignInPage(),
+        home: const _WebClerkGate(),
       );
     }
 
@@ -144,6 +147,67 @@ class _SessionTokenBinderState extends ConsumerState<SessionTokenBinder> {
       );
     }
     return widget.child;
+  }
+}
+
+/// Web counterpart of ClerkAuthBuilder + [SessionTokenBinder]: loads ClerkJS,
+/// keeps [bearerTokenProvider] on the current session JWT (Clerk tokens live
+/// ~60 s, so it re-reads on a timer), and picks sign-in vs. farms.
+class _WebClerkGate extends ConsumerStatefulWidget {
+  const _WebClerkGate();
+
+  @override
+  ConsumerState<_WebClerkGate> createState() => _WebClerkGateState();
+}
+
+class _WebClerkGateState extends ConsumerState<_WebClerkGate> {
+  bool _loaded = false;
+  bool _signedIn = false;
+  void Function()? _unsubscribe;
+  Timer? _refresh;
+
+  @override
+  void initState() {
+    super.initState();
+    _start();
+  }
+
+  Future<void> _start() async {
+    try {
+      await loadClerk(Env.clerkPublishableKey);
+      _unsubscribe = onClerkChange(_sync);
+      _refresh = Timer.periodic(const Duration(seconds: 45), (_) => _sync());
+    } catch (_) {
+      // Clerk unreachable: the sign-in page still offers the demo.
+    }
+    await _sync();
+  }
+
+  Future<void> _sync() async {
+    final token = await clerkSessionToken();
+    if (!mounted) return;
+    ref.read(bearerTokenProvider.notifier).setToken(token);
+    setState(() {
+      _loaded = true;
+      _signedIn = token != null;
+    });
+  }
+
+  @override
+  void dispose() {
+    _unsubscribe?.call();
+    _refresh?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_loaded) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator(color: AppColors.deepGreen)),
+      );
+    }
+    return _signedIn ? const HomeShell() : const SignInPage();
   }
 }
 
