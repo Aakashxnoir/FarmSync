@@ -1,54 +1,81 @@
-<div align="center">
-  <h3><code>aakash@github ~/FarmSync $ ./banner.sh</code></h3>
-  <img src="./assets/wordmark.svg" width="640" alt="FarmSync — 3D ASCII Wordmark" />
-  <p><code>High yield crop prediction using quantum AI</code></p>
+# High Yield Crop Prediction using Quantum AI
 
-  <br><br>
+A digital guidebook for new farmers. Enter your land and soil readings; get the
+crops that will grow there, the order to plant them across the year, and what
+the soil needs first.
 
-  <h3><code>aakash@github ~/FarmSync $ cat about.txt</code></h3>
-  <p>A digital guidebook for new farmers in Tamil Nadu. Enter your land and soil readings and it returns the crops that will grow there, the order to plant them across the year, and what the soil needs first. The order comes from a QAOA circuit, not a sort: a crop's value depends on what was planted before it, so the best order is rarely the ranked one. <a href="PRD.md">PRD</a> and <a href="TRD.md">TRD</a> have the numbers.</p>
+**Sign in with Google → add a farm → soil card → feasible crops →
+quantum-ranked crop order → soil treatment → dashboard.**
 
-  <br><br>
+- [`PRD.md`](PRD.md) — the product, the flow, and why the quantum step is not decoration
+- [`TRD.md`](TRD.md) — architecture, the ansatz, the ML pipeline
 
-  <h3><code>aakash@github ~/FarmSync $ ./stack.sh</code></h3>
-  <p>
-    <img src="https://img.shields.io/badge/Flutter-0d1117?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />&nbsp;
-    <img src="https://img.shields.io/badge/Dart-0d1117?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />&nbsp;
-    <img src="https://img.shields.io/badge/Python-0d1117?style=for-the-badge&logo=python&logoColor=white" alt="Python" />&nbsp;
-    <img src="https://img.shields.io/badge/FastAPI-0d1117?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />&nbsp;
-    <img src="https://img.shields.io/badge/PennyLane-0d1117?style=for-the-badge" alt="PennyLane" />&nbsp;
-    <img src="https://img.shields.io/badge/LightGBM-0d1117?style=for-the-badge" alt="LightGBM" />&nbsp;
-    <img src="https://img.shields.io/badge/Clerk-0d1117?style=for-the-badge&logo=clerk&logoColor=white" alt="Clerk" />&nbsp;
-    <img src="https://img.shields.io/badge/Supabase-0d1117?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />&nbsp;
-    <img src="https://img.shields.io/badge/Railway-0d1117?style=for-the-badge&logo=railway&logoColor=white" alt="Railway" />
-  </p>
+## Why quantum
 
-  <br><br>
+Ranking crops by predicted profit is a sort. Crop **sequencing** is not: a
+cereal after a legume out-yields the same cereal after itself, and the same crop
+twice running carries a monoculture penalty. So a crop's value depends on what
+preceded it, the objective is quadratic, and the best order is not the sorted
+order.
 
-  <h3><code>aakash@github ~/FarmSync $ ./run.sh</code></h3>
-</div>
+Across 60 random farms, sorting gives a suboptimal plan **65%** of the time
+(mean ₹5,475 lost, worst ₹32,762). Even greedy-with-lookahead is wrong **50%**
+of the time.
+
+The optimiser confines its search to the one-crop-per-season subspace using an
+XY-ring mixer, so **100%** of sampled bitstrings are structurally valid — by
+symmetry, not by filtering. It recovers the exact optimum on 25/25 instances,
+and the crop order shown in the app is read directly off the measurement
+distribution.
+
+## Run it
 
 ```bash
-git clone https://github.com/Aakashxnoir/FarmSync.git
-cd FarmSync/backend
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
+cd backend
 python -m scripts.build_training_set && python -m scripts.train_model
-python -m scripts.seed_demo            # optional: 3 demo farms, set DEV_LOGIN_USER / DEV_LOGIN_TOKEN in .env
 uvicorn app.main:app --reload
 
 cd ../flutter_app
-flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000             # Android emulator
-flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:8000  # web
+flutter run --dart-define=CLERK_PUBLISHABLE_KEY=pk_... --dart-define=API_BASE_URL=http://10.0.2.2:8000
 ```
 
-<div align="center">
-  <br>
-  <h3><code>aakash@github ~/FarmSync $ ./links.sh</code></h3>
-  <p>
-    <a href="https://aakash-portfolio-navy.vercel.app"><img src="https://img.shields.io/badge/Portfolio-NOIR%2FOS-0d1117?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>&nbsp;
-    <a href="https://github.com/Aakashxnoir"><img src="https://img.shields.io/badge/GitHub-Aakashxnoir-0d1117?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
-  </p>
-  <br>
-</div>
+`python backend/pipeline.py` runs the whole flow in one process.
+
+## Demo account
+
+To see the app populated without setting up Google sign-in:
+
+```bash
+cd backend
+python -m scripts.seed_demo            # 3 real Thanjavur farms
+# then in backend/.env:
+#   DEV_LOGIN_USER=demo-farmer
+#   DEV_LOGIN_TOKEN=<any secret you choose>
+
+cd ../flutter_app
+flutter run --dart-define=DEV_LOGIN_TOKEN=<the same secret>             --dart-define=API_BASE_URL=http://10.0.2.2:8000
+```
+
+The app shows a **DEV LOGIN** banner so this is never mistaken for a real
+session, and `/healthz` reports `dev_login_enabled`. Leave both env vars blank
+and the path does not exist.
+
+The seeded data is **not** fixtures. The script supplies only what a farmer
+would type — location, land size, soil readings — then runs the real pipeline:
+live weather and Sentinel-2, the trained model, the agronomic gates and the
+quantum sequencer. The three farms deliberately take different paths:
+
+| Farm | Soil | Feasible | Plan |
+|---|---|---|---|
+| Home field | Alluvial, pH 6.7, ample water | 4/5 | groundnut ×3 — ₹2,67,028 |
+| Canal plot | Heavy clay, pH 7.3 | 2/5 (drainage gate) | paddy → black gram → black gram — ₹59,616 |
+| Upland strip | Red, pH 7.8, low water | 3/5 (paddy fails on water) | groundnut ×3 — ₹1,64,724 |
+
+`python -m scripts.seed_demo --clean` removes it.
+
+## Tests
+
+```bash
+cd backend && pytest          # 55
+cd flutter_app && flutter test # 12
+```
