@@ -10,6 +10,11 @@
 
   <br><br>
 
+  <h3><code>aakash@github ~/FarmSync $ ./preview.sh</code></h3>
+  <img src="./assets/preview.png" width="320" alt="FarmSync preview" />
+
+  <br><br>
+
   <h3><code>aakash@github ~/FarmSync $ ./stack.sh</code></h3>
   <p>
     <img src="https://img.shields.io/badge/Flutter-0d1117?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />&nbsp;
@@ -20,7 +25,8 @@
     <img src="https://img.shields.io/badge/LightGBM-0d1117?style=for-the-badge" alt="LightGBM" />&nbsp;
     <img src="https://img.shields.io/badge/Clerk-0d1117?style=for-the-badge&logo=clerk&logoColor=white" alt="Clerk" />&nbsp;
     <img src="https://img.shields.io/badge/Supabase-0d1117?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />&nbsp;
-    <img src="https://img.shields.io/badge/Railway-0d1117?style=for-the-badge&logo=railway&logoColor=white" alt="Railway" />
+    <img src="https://img.shields.io/badge/Railway-0d1117?style=for-the-badge&logo=railway&logoColor=white" alt="Railway" />&nbsp;
+    <img src="https://img.shields.io/badge/Vercel-0d1117?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
   </p>
 
   <br><br>
@@ -47,6 +53,7 @@ flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:8000  # web
   <br>
   <h3><code>aakash@github ~/FarmSync $ ./links.sh</code></h3>
   <p>
+    <a href="https://farmsync-tan.vercel.app"><img src="https://img.shields.io/badge/Live-FarmSync-0d1117?style=for-the-badge&logo=vercel&logoColor=white" alt="Live" /></a>&nbsp;
     <a href="https://aakash-portfolio-navy.vercel.app"><img src="https://img.shields.io/badge/Portfolio-NOIR%2FOS-0d1117?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>&nbsp;
     <a href="https://github.com/Aakashxnoir"><img src="https://img.shields.io/badge/GitHub-Aakashxnoir-0d1117?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
   </p>
