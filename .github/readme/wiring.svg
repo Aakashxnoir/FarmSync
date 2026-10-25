@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" width="960" height="380" role="img" aria-label="Farmer readings, crop and rotation tables, weather and NDVI feed soil_card, crop_feasibility, the LightGBM yield model, the SPARQ quantum step and advisory, served by POST /farms/{id}/rank to the Flutter app">
+<title>Farmer readings, crop and rotation tables, weather and NDVI feed soil_card, crop_feasibility, the LightGBM yield model, the SPARQ quantum step and advisory, served by POST /farms/{id}/rank to the Flutter app</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2=".2" y2="1"><stop offset="0" stop-color="#111c14"/><stop offset=".55" stop-color="#1b2b1e"/><stop offset="1" stop-color="#253b2a"/></linearGradient>
+<pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 .5H.5V48" fill="none" stroke="#F7F1E6" stroke-opacity=".05"/></pattern>
+<radialGradient id="gridfade" cx=".5" cy=".4" r=".7"><stop offset=".3" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<mask id="gridmask"><rect width="960" height="380" fill="url(#gridfade)"/></mask>
+<radialGradient id="glow"><stop offset="0" stop-color="#C1592A" stop-opacity=".55"/><stop offset="1" stop-color="#C1592A" stop-opacity="0"/></radialGradient>
+<clipPath id="card"><rect width="960" height="380" rx="22"/></clipPath>
+<clipPath id="scr" clipPathUnits="objectBoundingBox"><rect width="1" height="1" rx=".08" ry=".037"/></clipPath>
+
+</defs>
+<style>
+.b{font-family:Roboto,Inter,'Segoe UI','Helvetica Neue',Arial,sans-serif}
+.m{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono','Liberation Mono',monospace}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.mo{display:none}}</style>
+<g clip-path="url(#card)">
+<rect width="960" height="380" fill="url(#bg)"/>
+<rect width="960" height="380" fill="url(#grid)" mask="url(#gridmask)"/>
+
+<g class="m" font-size="10" fill="rgba(247,241,230,0.4)" letter-spacing="1.5"><text x="40" y="38">INPUTS</text><text x="40" y="146">PIPELINE</text><text x="40" y="272">SERVED</text></g>
+<path d="M120 118V156" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M300 118V156" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M480 118V156" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M660 118V156" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M840 118V156" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M200 189H220" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M380 189H400" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M560 189H580" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M740 189H760" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M892 222C892 252 660 252 660 282" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M580 315H560" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/><path d="M740 315H760" fill="none" stroke="#C1592A" stroke-opacity=".35" stroke-width="1.2"/>
+<rect x="40.5" y="52.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="52" y="74" font-size="11.5" fill="#F7F1E6">Farmer</text>
+<text class="b" x="52" y="92" font-size="10.5" fill="#abb2a2">location, land size,</text><text class="b" x="52" y="106" font-size="10.5" fill="#abb2a2">Soil Health Card</text>
+<rect x="220.5" y="52.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="232" y="74" font-size="11.5" fill="#F7F1E6">crops.yaml</text>
+<text class="b" x="232" y="92" font-size="10.5" fill="#abb2a2">pH, salt and water</text><text class="b" x="232" y="106" font-size="10.5" fill="#abb2a2">tolerance per crop</text>
+<rect x="400.5" y="52.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="412" y="74" font-size="11.5" fill="#F7F1E6">weather · NDVI</text>
+<text class="b" x="412" y="92" font-size="10.5" fill="#abb2a2">Open-Meteo, NASA POWER,</text><text class="b" x="412" y="106" font-size="10.5" fill="#abb2a2">Sentinel-2</text>
+<rect x="580.5" y="52.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="592" y="74" font-size="11.5" fill="#F7F1E6">rotation.yaml</text>
+<text class="b" x="592" y="92" font-size="10.5" fill="#abb2a2">break-crop multipliers,</text><text class="b" x="592" y="106" font-size="10.5" fill="#abb2a2">nitrogen credit</text>
+<rect x="760.5" y="52.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="772" y="74" font-size="11.5" fill="#F7F1E6">fertilizers.yaml</text>
+<text class="b" x="772" y="92" font-size="10.5" fill="#abb2a2">nutrient grades,</text><text class="b" x="772" y="106" font-size="10.5" fill="#abb2a2">bag sizes</text>
+<rect x="40.5" y="156.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="52" y="178" font-size="11.5" fill="#F7F1E6">soil_card.py</text>
+<text class="b" x="52" y="196" font-size="10.5" fill="#abb2a2">readings → Low,</text><text class="b" x="52" y="210" font-size="10.5" fill="#abb2a2">Medium, High</text>
+<rect x="220.5" y="156.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="232" y="178" font-size="11.5" fill="#F7F1E6">crop_feasibility.py</text>
+<text class="b" x="232" y="196" font-size="10.5" fill="#abb2a2">which crops can grow,</text><text class="b" x="232" y="210" font-size="10.5" fill="#abb2a2">and why not the rest</text>
+<rect x="400.5" y="156.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="412" y="178" font-size="11.5" fill="#F7F1E6">yield_model.py</text>
+<text class="b" x="412" y="196" font-size="10.5" fill="#abb2a2">LightGBM: ₹ per crop,</text><text class="b" x="412" y="210" font-size="10.5" fill="#abb2a2">with a P10–P90 band</text>
+<rect x="580.5" y="156.5" width="159" height="65" rx="10" fill="#3b3723" fill-opacity=".9" stroke="#C1592A"/>
+<text class="m" x="592" y="178" font-size="11.5" fill="#F7F1E6">sparq.py</text>
+<text class="b" x="592" y="196" font-size="10.5" fill="#abb2a2">QAOA picks the order</text><text class="b" x="592" y="210" font-size="10.5" fill="#abb2a2">on 12 qubits</text>
+<rect x="760.5" y="156.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="772" y="178" font-size="11.5" fill="#F7F1E6">advisory.py</text>
+<text class="b" x="772" y="196" font-size="10.5" fill="#abb2a2">fertiliser bags, pH,</text><text class="b" x="772" y="210" font-size="10.5" fill="#abb2a2">irrigation</text>
+<rect x="400.5" y="282.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="412" y="304" font-size="11.5" fill="#F7F1E6">RotationPlan</text>
+<text class="b" x="412" y="322" font-size="10.5" fill="#abb2a2">saved: order, circuit,</text><text class="b" x="412" y="336" font-size="10.5" fill="#abb2a2">baselines, advice</text>
+<rect x="580.5" y="282.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="592" y="304" font-size="11.5" fill="#F7F1E6">/farms/{id}/rank</text>
+<text class="b" x="592" y="322" font-size="10.5" fill="#abb2a2">POST · one call runs</text><text class="b" x="592" y="336" font-size="10.5" fill="#abb2a2">the whole pipeline</text>
+<rect x="760.5" y="282.5" width="159" height="65" rx="10" fill="#1e3022" fill-opacity=".9" stroke="rgba(247,241,230,0.14)"/>
+<text class="m" x="772" y="304" font-size="11.5" fill="#F7F1E6">Flutter app</text>
+<text class="b" x="772" y="322" font-size="10.5" fill="#abb2a2">plan, quantum panel,</text><text class="b" x="772" y="336" font-size="10.5" fill="#abb2a2">planner, report</text>
+<text class="m" x="120" y="240" font-size="10" fill="rgba(247,241,230,0.4)" text-anchor="middle">ICAR thresholds</text><text class="m" x="300" y="240" font-size="10" fill="rgba(247,241,230,0.4)" text-anchor="middle">agronomic rules</text><text class="m" x="480" y="240" font-size="10" fill="rgba(247,241,230,0.4)" text-anchor="middle">classical</text><text class="m" x="660" y="240" font-size="10" fill="#d79675" text-anchor="middle">quantum</text><text class="m" x="840" y="240" font-size="10" fill="rgba(247,241,230,0.4)" text-anchor="middle">rules</text>
+<g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" path="M120 118V156"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" path="M300 118V156"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" path="M480 118V156"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" path="M660 118V156"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" path="M840 118V156"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="0.6s" repeatCount="indefinite" path="M200 189H220"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="1.1s" repeatCount="indefinite" path="M380 189H400"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="1.6s" repeatCount="indefinite" path="M560 189H580"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="2.1s" repeatCount="indefinite" path="M740 189H760"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="2.8s" repeatCount="indefinite" path="M892 222C892 252 660 252 660 282"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="3.4s" repeatCount="indefinite" path="M580 315H560"/></g><g class="mo"><circle r="8" fill="url(#glow)"/><circle r="2.6" fill="#F7F1E6"/><animateMotion dur="1.6s" begin="3.4s" repeatCount="indefinite" path="M740 315H760"/></g>
+</g>
+<rect x=".5" y=".5" width="959" height="379" rx="21.5" fill="none" stroke="rgba(247,241,230,0.14)"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 16" width="960" height="16" role="img" aria-label="">
+<defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#abb2a2" stop-opacity="0"/><stop offset=".5" stop-color="#abb2a2" stop-opacity=".55"/><stop offset="1" stop-color="#abb2a2" stop-opacity="0"/></linearGradient>
+<radialGradient id="s"><stop offset="0" stop-color="#C1592A"/><stop offset="1" stop-color="#C1592A" stop-opacity="0"/></radialGradient></defs>
+<style>@keyframes run{from{transform:translate(-80px,0)}to{transform:translate(1040px,0)}}.s{animation:run 5s cubic-bezier(.65,0,.35,1) infinite}@media (prefers-reduced-motion:reduce){.s{animation:none;opacity:0}}</style>
+<rect x="0" y="7.5" width="452" height="1" fill="url(#g)"/><rect x="508" y="7.5" width="452" height="1" fill="url(#g)"/>
+<path d="M464 8H496" stroke="#C1592A" stroke-opacity=".6"/>
+<circle cx="464" cy="8" r="3" fill="none" stroke="#C1592A" stroke-opacity=".85" stroke-width="1.2"/><circle cx="480" cy="8" r="3" fill="none" stroke="#C1592A" stroke-opacity=".85" stroke-width="1.2"/><circle cx="496" cy="8" r="3" fill="none" stroke="#C1592A" stroke-opacity=".85" stroke-width="1.2"/>
+<ellipse class="s" cy="8" rx="40" ry="3" fill="url(#s)"/>
+</svg>

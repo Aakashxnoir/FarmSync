@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 210" width="960" height="210" role="img" aria-label="Kharif, Rabi, Summer: one crop each. Soil-aware crop plans, ranked by what earns most.">
+<title>Kharif, Rabi, Summer: one crop each. Soil-aware crop plans, ranked by what earns most.</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2=".2" y2="1"><stop offset="0" stop-color="#111c14"/><stop offset=".55" stop-color="#1b2b1e"/><stop offset="1" stop-color="#253b2a"/></linearGradient>
+<pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 .5H.5V48" fill="none" stroke="#F7F1E6" stroke-opacity=".05"/></pattern>
+<radialGradient id="gridfade" cx=".5" cy=".4" r=".7"><stop offset=".3" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<mask id="gridmask"><rect width="960" height="210" fill="url(#gridfade)"/></mask>
+<radialGradient id="glow"><stop offset="0" stop-color="#C1592A" stop-opacity=".55"/><stop offset="1" stop-color="#C1592A" stop-opacity="0"/></radialGradient>
+<clipPath id="card"><rect width="960" height="210" rx="22"/></clipPath>
+<clipPath id="scr" clipPathUnits="objectBoundingBox"><rect width="1" height="1" rx=".08" ry=".037"/></clipPath>
+
+</defs>
+<style>
+.b{font-family:Roboto,Inter,'Segoe UI','Helvetica Neue',Arial,sans-serif}
+.m{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'DejaVu Sans Mono','Liberation Mono',monospace}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.mo{display:none}}</style>
+<g clip-path="url(#card)">
+<rect width="960" height="210" fill="url(#bg)"/>
+<rect width="960" height="210" fill="url(#grid)" mask="url(#gridmask)"/>
+
+<ellipse cx="480" cy="64" rx="180" ry="44" fill="url(#glow)" opacity=".25"/>
+<path d="M330 64H630" stroke="#C1592A" stroke-opacity=".5" stroke-width="1.2"/>
+<circle cx="330" cy="64" r="6" fill="#1c2c1f" stroke="#C1592A" stroke-width="1.6"/>
+<text class="m" x="330" y="94" font-size="10" letter-spacing="1.2" fill="#abb2a2" text-anchor="middle">KHARIF</text>
+<text class="b" x="330" y="112" font-size="13" fill="#F7F1E6" text-anchor="middle">Paddy</text><circle cx="480" cy="64" r="6" fill="#1c2c1f" stroke="#C1592A" stroke-width="1.6"/>
+<text class="m" x="480" y="94" font-size="10" letter-spacing="1.2" fill="#abb2a2" text-anchor="middle">RABI</text>
+<text class="b" x="480" y="112" font-size="13" fill="#F7F1E6" text-anchor="middle">Black gram</text><circle cx="630" cy="64" r="6" fill="#1c2c1f" stroke="#C1592A" stroke-width="1.6"/>
+<text class="m" x="630" y="94" font-size="10" letter-spacing="1.2" fill="#abb2a2" text-anchor="middle">SUMMER</text>
+<text class="b" x="630" y="112" font-size="13" fill="#F7F1E6" text-anchor="middle">Groundnut</text>
+<g class="mo"><circle r="12" fill="url(#glow)"/><circle r="3" fill="#F7F1E6"/><animateMotion dur="4.5s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.8;1" calcMode="linear" path="M330 64H630"/></g>
+<text class="b" x="480" y="160" font-size="22" fill="#F7F1E6" text-anchor="middle">Soil-aware crop plans, ranked by what earns most.</text>
+<text class="m" x="480" y="188" font-size="11" fill="#abb2a2" text-anchor="middle">Thanjavur  ·  Tamil Nadu  ·  farmsync-tan.vercel.app</text>
+</g>
+<rect x=".5" y=".5" width="959" height="209" rx="21.5" fill="none" stroke="rgba(247,241,230,0.14)"/>
+</svg>
